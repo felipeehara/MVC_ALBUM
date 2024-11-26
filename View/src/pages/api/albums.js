@@ -1,7 +1,7 @@
-import db from "../../../../dbConnection"; // Verifique se o caminho está correto para sua conexão com o DB
+import db from "../../../../dbConnection";
 
 export default async function handler(req, res) {
-  const { id } = req.query;
+  const { id, searchQuery } = req.query;
 
   if (req.method === "DELETE") {
     if (!id) {
@@ -30,8 +30,16 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Erro interno do servidor." });
     }
   } else if (req.method === "GET") {
-    const query = "SELECT * FROM album";
-    db.query(query, (err, results) => {
+    let query = "SELECT * FROM album";
+    const params = [];
+
+    if (searchQuery) {
+      query += " WHERE titulo LIKE ? OR genero LIKE ?";
+      const wildcardQuery = `%${searchQuery}%`;
+      params.push(wildcardQuery, wildcardQuery);
+    }
+
+    db.query(query, params, (err, results) => {
       if (err) {
         console.error("Erro ao buscar álbuns:", err);
         return res.status(500).json({ error: "Erro ao buscar álbuns." });
