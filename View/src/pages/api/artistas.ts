@@ -1,10 +1,10 @@
 // pages/api/artists.ts
 import { NextApiRequest, NextApiResponse } from "next";
-import db from "../../../../dbConnection"; // Certifique-se de que o caminho para dbConnection está correto
+import db from "../../../../dbConnection"; 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
-    const query = "SELECT id, nome FROM artistas"; // Ajuste para o nome correto da tabela
+    const query = "SELECT id, nome FROM artistas"; 
 
     db.query(query, (error, results) => {
       if (error) {

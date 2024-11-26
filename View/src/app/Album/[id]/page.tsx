@@ -1,21 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // Certifique-se de usar o `useRouter` correto para o cliente
+import { useRouter } from "next/navigation"; 
 
 const AlbumDetails = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const [album, setAlbum] = useState<any>(null);
   const [artistas, setArtistas] = useState<any[]>([]);
-  const [isClient, setIsClient] = useState(false); // Para controlar quando estamos no cliente
-  const router = useRouter(); // Hook de navegação
+  const [isClient, setIsClient] = useState(false); 
+  const router = useRouter(); 
 
   useEffect(() => {
-    setIsClient(true); // Atualiza para true quando estamos no cliente
+    setIsClient(true); 
   }, []);
 
   useEffect(() => {
-    if (!id) return; // Garante que o ID esteja disponível antes de buscar
+    if (!id) return; 
     const fetchAlbum = async () => {
       try {
         const response = await fetch(`/api/albums?id=${id}`);

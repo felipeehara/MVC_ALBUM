@@ -32,7 +32,7 @@ const HomePage = () => {
       }
 
       alert("Álbum excluído com sucesso!");
-      fetchAlbums(searchQuery); // Atualiza a lista de álbuns após exclusão
+      fetchAlbums(searchQuery); 
     } catch (error) {
       console.error("Erro ao excluir álbum:", error);
       alert("Erro ao excluir álbum. Tente novamente.");
@@ -99,7 +99,6 @@ const HomePage = () => {
         )}
       </div>
 
-      {/* Botão de Adicionar Álbum fixo no rodapé, no centro */}
       <div className="fixed bottom-1 left-1/2 transform -translate-x-1/2 flex space-x-4 ">
       {/* Botão Adicionar Álbum */}
       <Link href="/AddAlbumPage">

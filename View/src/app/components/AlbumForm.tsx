@@ -1,4 +1,3 @@
-// src/components/AlbumForm.tsx
 import { useState } from "react";
 import { Album } from "../types";
 

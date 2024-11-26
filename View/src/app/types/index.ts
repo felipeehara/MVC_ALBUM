@@ -1,4 +1,3 @@
-// src/types/index.ts
 export interface Track {
     title: string;
     duration: string;
@@ -18,7 +17,7 @@ export interface Track {
     id: string;
     name: string;
     genre: string;
-    albums: string[];  // Lista de IDs de álbuns
+    albums: string[];  
   }
   
   export interface Genre {

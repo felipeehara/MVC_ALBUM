@@ -1,4 +1,3 @@
-// src/pages/api/getArtistas.ts
 import db from "../../../../dbConnection";
 
 export default function handler(req, res) {

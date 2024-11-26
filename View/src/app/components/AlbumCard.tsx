@@ -1,4 +1,3 @@
-// components/AlbumCard.tsx
 import { Album } from "../types";
 
 interface AlbumCardProps {

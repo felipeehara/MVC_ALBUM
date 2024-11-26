@@ -1,6 +1,5 @@
-// pages/api/addAlbum.ts
 import { NextApiRequest, NextApiResponse } from "next";
-import db from "../../../../dbConnection"; // Certifique-se de que o caminho para dbConnection está correto
+import db from "../../../../dbConnection"; 
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,7 +8,6 @@ export default async function handler(
   if (req.method === "POST") {
     const { titulo, genero, urlImagem } = req.body;
 
-    // Verifica se todos os campos foram preenchidos
     if (!titulo || !genero || !urlImagem) {
       return res.status(400).json({ message: "Todos os campos são obrigatórios" });
     }
@@ -22,8 +20,7 @@ export default async function handler(
         return res.status(500).json({ message: "Erro ao adicionar álbum", error: error.message });
       }
 
-      // Acessar o insertId do resultado
-      const insertId = (results as any).insertId;  // Isso é necessário para que TypeScript não reclame
+      const insertId = (results as any).insertId; 
 
       res.status(201).json({ message: "Álbum adicionado com sucesso!", id: insertId });
     });

@@ -1,4 +1,3 @@
-// components/ButtonAdd.tsx
 interface ButtonAddProps {
   onClick: () => void;
 }

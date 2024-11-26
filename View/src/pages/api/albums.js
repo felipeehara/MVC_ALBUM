@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "GET") {
     if (id) {
-      // Obter informações detalhadas de um álbum específico
+     
       const query = "SELECT * FROM album WHERE id = ?";
       db.query(query, [id], (err, results) => {
         if (err) {
@@ -44,10 +44,9 @@ export default async function handler(req, res) {
           return res.status(404).json({ error: "Álbum não encontrado." });
         }
 
-        return res.status(200).json(results[0]); // Retornar apenas o primeiro resultado
+        return res.status(200).json(results[0]); 
       });
     } else {
-      // Listar todos os álbuns ou buscar por título/gênero
       let query = "SELECT * FROM album";
       const params = [];
 

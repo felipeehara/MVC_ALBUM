@@ -10,7 +10,7 @@ const AddAlbumPage = () => {
   const [artistaId, setArtistaId] = useState(0);
   const router = useRouter();
 
-  // Carregar os artistas cadastrados
+
   useEffect(() => {
     const fetchArtistas = async () => {
       const response = await fetch("/api/getArtistas");
@@ -39,7 +39,7 @@ const AddAlbumPage = () => {
 
       if (response.ok) {
         alert("Álbum adicionado com sucesso!");
-        router.push("/"); // Redireciona para a página principal
+        router.push("/"); 
       } else {
         alert("Erro ao adicionar álbum.");
       }
@@ -50,7 +50,7 @@ const AddAlbumPage = () => {
   };
 
   const handleCancel = () => {
-    router.push("/"); // Redireciona para a página inicial
+    router.push("/"); 
   };
 
   return (

@@ -7,7 +7,6 @@ const AddArtistPage = () => {
   const [genero, setGenero] = useState("");
   const router = useRouter();
 
-  // Função para lidar com o envio do formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -25,7 +24,7 @@ const AddArtistPage = () => {
 
       if (response.ok) {
         alert("Artista adicionado com sucesso!");
-        router.push("/"); // Redireciona para a página principal
+        router.push("/"); 
       } else {
         alert("Erro ao adicionar artista.");
       }
@@ -36,7 +35,7 @@ const AddArtistPage = () => {
   };
 
   const handleCancel = () => {
-    router.push("/"); // Redireciona para a página inicial
+    router.push("/"); 
   };
 
   return (
