@@ -1,11 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // Certifique-se de usar o `useRouter` correto para o cliente
 
 const AlbumDetails = ({ params }: { params: { id: string } }) => {
-  const { id } = params; // Extrai o id dos parâmetros
+  const { id } = params;
   const [album, setAlbum] = useState<any>(null);
   const [artistas, setArtistas] = useState<any[]>([]);
+  const [isClient, setIsClient] = useState(false); // Para controlar quando estamos no cliente
+  const router = useRouter(); // Hook de navegação
+
+  useEffect(() => {
+    setIsClient(true); // Atualiza para true quando estamos no cliente
+  }, []);
 
   useEffect(() => {
     if (!id) return; // Garante que o ID esteja disponível antes de buscar
@@ -75,6 +82,13 @@ const AlbumDetails = ({ params }: { params: { id: string } }) => {
     }
   };
 
+  const handleGoBack = () => {
+    if (isClient) {
+      console.log("Redirecionando para a página principal..."); // Verifique no console
+      router.push("/"); // Navegação para a página inicial
+    }
+  };
+
   if (!album || !artistas.length) {
     return <p className="text-center text-gray-400">Carregando...</p>;
   }
@@ -141,6 +155,13 @@ const AlbumDetails = ({ params }: { params: { id: string } }) => {
           Atualizar Álbum
         </button>
       </form>
+
+      <button
+        onClick={handleGoBack}
+      className="block mx-auto bg-blue-600 text-white p-3 rounded-lg shadow-md hover:bg-blue-700 transition"
+      >
+       Voltar para Home
+      </button>
     </div>
   );
 };

@@ -35,6 +35,10 @@ const AddArtistPage = () => {
     }
   };
 
+  const handleCancel = () => {
+    router.push("/"); // Redireciona para a página inicial
+  };
+
   return (
     <div className="p-8 bg-black text-white min-h-screen">
       <h1 className="text-3xl font-bold text-center mb-6">Adicionar Artista</h1>
@@ -65,12 +69,21 @@ const AddArtistPage = () => {
             required
           />
         </div>
-        <button
-          type="submit"
-          className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700"
-        >
-          Adicionar Artista
-        </button>
+        <div className="flex space-x-4">
+          <button
+            type="submit"
+            className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700"
+          >
+            Adicionar Artista
+          </button>
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="mt-6 bg-gray-600 text-white py-2 px-4 rounded-full hover:bg-gray-700"
+          >
+            Cancelar
+          </button>
+        </div>
       </form>
     </div>
   );
