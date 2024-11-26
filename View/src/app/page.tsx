@@ -61,11 +61,11 @@ const HomePage = () => {
             <div key={album.id} className="bg-gray-800 p-4 rounded-lg shadow-lg relative group">
               <Link href={`/Album/${album.id}`}>
                 <div className="cursor-pointer">
-                  <img
-                    src={album.url_da_imagem}
-                    alt={album.titulo}
-                    className="w-full h-48 object-cover rounded-lg mb-4 transition-transform transform group-hover:scale-105"
-                  />
+                <img
+  src={album.url_da_imagem}
+  alt={album.titulo}
+  className="w-full h-60 object-cover rounded-xl mb-6 shadow-lg transition-transform transform hover:scale-105 hover:rotate-1"
+/>
                   <h2 className="text-2xl font-semibold truncate">{album.titulo}</h2>
                   <p className="text-gray-400">{album.genero}</p>
                 </div>
