@@ -72,10 +72,23 @@ const HomePage = () => {
               </Link>
               <button
                 onClick={() => deleteAlbum(album.id)}
-                className="absolute top-4 right-4 bg-red-600 text-white p-2 rounded-full shadow-md hover:bg-red-700 transition"
+                className="absolute top-4 right-4 bg-gray-600 text-white p-2 rounded-full shadow-md hover:bg-red-700 transition"
                 title="Excluir Álbum"
               >
-                🗑️
+                 <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 7l-.867 12.142A2 2 0 0116.136 21H7.864a2 2 0 01-1.997-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3m-3 0h12"
+                  />
+                </svg>
               </button>
             </div>
           ))
@@ -87,20 +100,20 @@ const HomePage = () => {
       </div>
 
       {/* Botão de Adicionar Álbum fixo no rodapé, no centro */}
-      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-4">
+      <div className="fixed bottom-1 left-1/2 transform -translate-x-1/2 flex space-x-4 ">
       {/* Botão Adicionar Álbum */}
       <Link href="/AddAlbumPage">
-        <button className="px-6 py-3 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition">
-          + Adicionar Álbum
-        </button>
-      </Link>
+    <button className="px-6 py-3 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition">
+      + Adicionar Álbum
+    </button>
+  </Link>
 
-      {/* Botão Adicionar Artista */}
-      <Link href="/AddArtistPage">
-        <button className="px-6 py-3 bg-green-600 text-white rounded-full shadow-md hover:bg-green-700 transition">
-          + Adicionar Artista
-        </button>
-      </Link>
+       {/* Botão Adicionar Artista */}
+  <Link href="/AddArtistPage">
+    <button className="px-6 py-3 bg-green-600 text-white rounded-full shadow-md hover:bg-green-700 ">
+      + Adicionar Artista
+    </button>
+  </Link>
 </div>
 
       
