@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Albums", {
+    await queryInterface.createTable("album", {  // nome correto da tabela (com "a" minúsculo)
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -21,6 +21,16 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      artistId: {  // Adicionando a chave estrangeira para artistas
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "artistas",  // nome da tabela dos artistas
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -33,6 +43,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Albums");
+    await queryInterface.dropTable("album");
   },
 };

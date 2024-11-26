@@ -1,14 +1,25 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const AddAlbumPage = () => {
   const [titulo, setTitulo] = useState("");
   const [genero, setGenero] = useState("");
   const [urlImagem, setUrlImagem] = useState("");
+  const [artistas, setArtistas] = useState([]);
+  const [artistaId, setArtistaId] = useState(0);
   const router = useRouter();
 
-  // Função para lidar com o envio do formulário
+  // Carregar os artistas cadastrados
+  useEffect(() => {
+    const fetchArtistas = async () => {
+      const response = await fetch("/api/getArtistas");
+      const data = await response.json();
+      setArtistas(data);
+    };
+    fetchArtistas();
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -22,6 +33,7 @@ const AddAlbumPage = () => {
           titulo,
           genero,
           urlImagem,
+          artistaId,
         }),
       });
 
@@ -79,6 +91,24 @@ const AddAlbumPage = () => {
             className="p-2 w-full border border-gray-700 bg-gray-800 text-white rounded mt-2"
             required
           />
+        </div>
+        <div>
+          <label htmlFor="artista" className="block text-sm font-semibold">
+            Artista
+          </label>
+          <select
+            id="artista"
+            value={artistaId}
+            onChange={(e) => setArtistaId(Number(e.target.value))}
+            className="p-2 w-full border border-gray-700 bg-gray-800 text-white rounded mt-2"
+          >
+            <option value={0}>Selecione um artista</option>
+            {artistas.map((artista) => (
+              <option key={artista.id} value={artista.id}>
+                {artista.nome}
+              </option>
+            ))}
+          </select>
         </div>
         <button
           type="submit"

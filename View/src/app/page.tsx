@@ -59,7 +59,7 @@ const HomePage = () => {
         {albums.length > 0 ? (
           albums.map((album) => (
             <div key={album.id} className="bg-gray-800 p-4 rounded-lg shadow-lg relative group">
-              <Link href={`/album/${album.id}`}>
+              <Link href={`/Album/${album.id}`}>
                 <div className="cursor-pointer">
                   <img
                     src={album.url_da_imagem}
