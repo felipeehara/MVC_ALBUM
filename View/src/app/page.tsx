@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const HomePage = () => {
@@ -7,7 +8,6 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 
-  // Função para carregar álbuns do banco de dados (API)
   const fetchAlbums = async (searchQuery: string) => {
     try {
       const response = await fetch(`/api/albums?searchQuery=${searchQuery}`);
@@ -18,42 +18,30 @@ const HomePage = () => {
     }
   };
 
-  // Função para deletar um álbum
-const deleteAlbum = async (id: number) => {
-  const confirmed = window.confirm("Tem certeza de que deseja excluir este álbum?");
-  if (!confirmed) return;
+  const deleteAlbum = async (id: number) => {
+    const confirmDelete = window.confirm("Tem certeza de que deseja excluir este álbum?");
+    if (!confirmDelete) return;
 
-  try {
-    const response = await fetch(`/api/albums/${id}`, { // A URL precisa estar correta
-      method: "DELETE",
-    });
+    try {
+      const response = await fetch(`/api/albums?id=${id}`, { method: "DELETE" });
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("Erro ao excluir álbum:", error.error);
+        alert("Erro ao excluir álbum. Tente novamente mais tarde.");
+        return;
+      }
 
-    // Verificando a resposta do servidor
-    if (response.ok) {
-      setAlbums(albums.filter((album) => album.id !== id)); // Atualizando a lista após exclusão
-    } else {
-      const errorData = await response.json();
-      console.error("Erro ao deletar o álbum:", errorData);
-      alert("Erro ao deletar o álbum.");
+      alert("Álbum excluído com sucesso!");
+      fetchAlbums(searchQuery); // Atualiza a lista de álbuns após exclusão
+    } catch (error) {
+      console.error("Erro ao excluir álbum:", error);
+      alert("Erro ao excluir álbum. Tente novamente.");
     }
-  } catch (error) {
-    console.error("Erro ao deletar o álbum:", error);
-    alert("Erro ao deletar o álbum.");
-  }
-};
-
-  // Função para editar um álbum
-  const editAlbum = (id: number) => {
-    router.push(`/EditAlbumPage/${id}`);
   };
 
   useEffect(() => {
     fetchAlbums(searchQuery);
   }, [searchQuery]);
-
-  const handleAddAlbum = () => {
-    router.push("/AddAlbumPage");
-  };
 
   return (
     <div className="p-8 bg-black text-white min-h-screen">
@@ -71,56 +59,23 @@ const deleteAlbum = async (id: number) => {
         {albums.length > 0 ? (
           albums.map((album) => (
             <div key={album.id} className="bg-gray-800 p-4 rounded-lg shadow-lg relative group">
-              <img
-                src={album.url_da_imagem}
-                alt={album.titulo}
-                className="w-full h-48 object-cover rounded-lg mb-4 transition-transform transform group-hover:scale-105"
-              />
-              <h2 className="text-2xl font-semibold truncate">{album.titulo}</h2>
-              <p className="text-gray-400">{album.genero}</p>
-
-              {/* Ícone de lixeira para deletar */}
+              <Link href={`/album/${album.id}`}>
+                <div className="cursor-pointer">
+                  <img
+                    src={album.url_da_imagem}
+                    alt={album.titulo}
+                    className="w-full h-48 object-cover rounded-lg mb-4 transition-transform transform group-hover:scale-105"
+                  />
+                  <h2 className="text-2xl font-semibold truncate">{album.titulo}</h2>
+                  <p className="text-gray-400">{album.genero}</p>
+                </div>
+              </Link>
               <button
                 onClick={() => deleteAlbum(album.id)}
-                className="absolute top-4 right-4 bg-red-600 text-white p-2 rounded-full shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-                title="Deletar álbum"
+                className="absolute top-4 right-4 bg-red-600 text-white p-2 rounded-full shadow-md hover:bg-red-700 transition"
+                title="Excluir Álbum"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 7l-1 14H6L5 7m5-4h4m-2 0v4m-4 0h8"
-                  />
-                </svg>
-              </button>
-
-              {/* Ícone de lápis para editar */}
-              <button
-                onClick={() => editAlbum(album.id)}
-                className="absolute top-4 right-16 bg-blue-600 text-white p-2 rounded-full shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                title="Editar álbum"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11 3h2v4h-2zm0 8h2v6h-2zm-6 2h4v4H5zm8 2h4v4h-4z"
-                  />
-                </svg>
+                🗑️
               </button>
             </div>
           ))
@@ -131,14 +86,24 @@ const deleteAlbum = async (id: number) => {
         )}
       </div>
 
-      <div className="mt-8 flex justify-center">
-        <button
-          onClick={handleAddAlbum}
-          className="bg-blue-600 text-white py-3 px-6 rounded-full shadow-md hover:bg-blue-700 transition"
-        >
+      {/* Botão de Adicionar Álbum fixo no rodapé, no centro */}
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-4">
+      {/* Botão Adicionar Álbum */}
+      <Link href="/AddAlbumPage">
+        <button className="px-6 py-3 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition">
           + Adicionar Álbum
         </button>
-      </div>
+      </Link>
+
+      {/* Botão Adicionar Artista */}
+      <Link href="/AddArtistPage">
+        <button className="px-6 py-3 bg-green-600 text-white rounded-full shadow-md hover:bg-green-700 transition">
+          + Adicionar Artista
+        </button>
+      </Link>
+</div>
+
+      
     </div>
   );
 };

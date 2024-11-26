@@ -30,22 +30,41 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Erro interno do servidor." });
     }
   } else if (req.method === "GET") {
-    let query = "SELECT * FROM album";
-    const params = [];
+    if (id) {
+      // Obter informações detalhadas de um álbum específico
+      const query = "SELECT * FROM album WHERE id = ?";
+      db.query(query, [id], (err, results) => {
+        if (err) {
+          console.error("Erro ao buscar o álbum:", err);
+          return res.status(500).json({ error: "Erro ao buscar o álbum." });
+        }
 
-    if (searchQuery) {
-      query += " WHERE titulo LIKE ? OR genero LIKE ?";
-      const wildcardQuery = `%${searchQuery}%`;
-      params.push(wildcardQuery, wildcardQuery);
-    }
+        if (results.length === 0) {
+          console.error("Álbum não encontrado:", id);
+          return res.status(404).json({ error: "Álbum não encontrado." });
+        }
 
-    db.query(query, params, (err, results) => {
-      if (err) {
-        console.error("Erro ao buscar álbuns:", err);
-        return res.status(500).json({ error: "Erro ao buscar álbuns." });
+        return res.status(200).json(results[0]); // Retornar apenas o primeiro resultado
+      });
+    } else {
+      // Listar todos os álbuns ou buscar por título/gênero
+      let query = "SELECT * FROM album";
+      const params = [];
+
+      if (searchQuery) {
+        query += " WHERE titulo LIKE ? OR genero LIKE ?";
+        const wildcardQuery = `%${searchQuery}%`;
+        params.push(wildcardQuery, wildcardQuery);
       }
-      return res.status(200).json(results);
-    });
+
+      db.query(query, params, (err, results) => {
+        if (err) {
+          console.error("Erro ao buscar álbuns:", err);
+          return res.status(500).json({ error: "Erro ao buscar álbuns." });
+        }
+        return res.status(200).json(results);
+      });
+    }
   } else {
     res.setHeader("Allow", ["GET", "DELETE"]);
     return res.status(405).json({ error: `Método ${req.method} não permitido.` });
